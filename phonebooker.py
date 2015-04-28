@@ -19,12 +19,11 @@ with open(sys.argv[1]) as csvfile:
             http = urllib3.PoolManager()
             r = http.request('GET', url)
             page_text = r.data
-
             sys.stdout.write(row[0] + ',' + row[2] + ',')
             if 'subHead2' in page_text:
-                print 'Student'
+                print 'Student,' + re.search('(?<=mailto:).*(?=")',page_text).group(0)
             elif('<div align="left">Status</div>' in page_text or
                 'records than the maximum allowed' in page_text):
-                print "Multiple"
+                print "Multiple,"
             else:
-                print "Not Student"
+                print "Not Student,"
